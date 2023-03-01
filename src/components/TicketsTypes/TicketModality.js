@@ -10,7 +10,7 @@ export const SecondTitle = styled.h5`
   margin-top: 34px;
 `;
 
-export const TicketsModality = styled.div`
+export const Modalities = styled.div`
   background-color: ${props => props.isSelected ? '#FFEED2' : 'white'};
   width: 145px;
   height: 145px;
@@ -36,6 +36,6 @@ export const TicketsModality = styled.div`
   }
 `;
 
-export const TicketsContainer = styled.div`
+export const ModalitiesContainer = styled.div`
   display: flex;
 `;
