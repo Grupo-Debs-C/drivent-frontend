@@ -18,6 +18,7 @@ export default function TicketsTypes() {
     try {
       const types = await getTicketsTypes();
       setTicketsTypes(types);
+      console.log(types);
     } catch (err) {
       toast('Um erro apareceu ao trazer as informações!');
     }
@@ -38,6 +39,7 @@ export default function TicketsTypes() {
               <ModalitiesContainer>
                 {ticketsTypes.map((ticketType) => (
                   <Modalities
+                    isDisplayed={!ticketType.includesHotel}
                     isSelected={selectedTicketType === ticketType.id}
                     key={ticketType.id}
                     onClick={() => setSelectedTicketType(ticketType.id)}

@@ -18,7 +18,7 @@ export const Modalities = styled.div`
   border-radius: 20px;
   cursor: pointer;
   margin-right: 24px;
-  display: flex;
+  display: ${props => props.isDisplayed ? 'flex' : 'none'};
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -27,6 +27,7 @@ export const Modalities = styled.div`
   font-weight: 400;
   font-size: 16px;
   text-align: center;
+  
   > h1 {
     color: #454545;
   }
