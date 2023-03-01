@@ -6,11 +6,12 @@ import useGetTicketsTypes from '../../hooks/api/useGetTicketsTypes';
 import { toast } from 'react-toastify';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
+import useSaveTicket from '../../hooks/api/useSaveTicket';
 
 export default function TicketsTypes() {
   const { getEnrollmentLoading, userEnrollment } = useGetEnrollment();
   const { getTicketsTypes } = useGetTicketsTypes();
-
+  const { saveTicket } = useSaveTicket();
   const [ticketsTypes, setTicketsTypes] = useState(null);
   const [selectedTicketType, setSelectedTicketType] = useState(null);
   const [selectedTicketType2, setSelectedTicketType2] = useState({});
@@ -82,7 +83,7 @@ export default function TicketsTypes() {
           {selectedTicketType2.price && (
             <>
               <SecondTitle>Fechado! O total ficou em <strong>R$ {selectedTicketType2.price}</strong> Agora é só confirmar:</SecondTitle>
-              <ConfirmationButton>RESERVAR INGRESSO</ConfirmationButton>
+              <ConfirmationButton onClick={ async() => await saveTicket({ ticketTypeId: selectedTicketType2.id })}>RESERVAR INGRESSO</ConfirmationButton>
             </>
           )}
         </>
