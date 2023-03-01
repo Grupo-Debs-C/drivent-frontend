@@ -40,9 +40,9 @@ export default function useGetTicketsTypes() {
   const {
     loading: getTicketsTypesLoading,
     error: getTicketsTypesError,
-    data: getTicketsTypes
+    act: getTicketsTypes
   } = useAsync(() =>
-    ticketsApi.getTicketsTypes(token)
+    ticketsApi.getTicketsTypes(token), false
   );
 
   return {
