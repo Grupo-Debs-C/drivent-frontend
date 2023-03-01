@@ -1,6 +1,5 @@
 import useAsync from '../useAsync';
 import useToken from '../useToken';
-
 import * as ticketsApi from '../../services/ticketsApi';
 
 /* 
@@ -35,12 +34,20 @@ import * as ticketsApi from '../../services/ticketsApi';
 ]
 */
 
-export default function useTicketsTypes() {
+export default function useGetTicketsTypes() {
   const token = useToken();
 
-  const { id, name, price, isRemote, includesHotel, createdAt, updatedAt } = useAsync(() =>
+  const {
+    loading: getTicketsTypesLoading,
+    error: getTicketsTypesError,
+    data: getTicketsTypes
+  } = useAsync(() =>
     ticketsApi.getTicketsTypes(token)
   );
 
-  return { id, name, price, isRemote, includesHotel, createdAt, updatedAt };
+  return {
+    getTicketsTypesLoading,
+    getTicketsTypesError,
+    getTicketsTypes
+  };
 }
