@@ -40,3 +40,18 @@ export const Modalities = styled.div`
 export const ModalitiesContainer = styled.div`
   display: flex;
 `;
+
+export const ConfirmationButton = styled.button`
+  width: 162px;
+  height: 37px;
+  background-color: #E0E0E0;
+  border-radius: 4px;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  color: #000000;
+  border: none;
+`;
