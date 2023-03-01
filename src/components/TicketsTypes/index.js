@@ -13,12 +13,12 @@ export default function TicketsTypes() {
 
   const [ticketsTypes, setTicketsTypes] = useState(null);
   const [selectedTicketType, setSelectedTicketType] = useState(null);
+  const [isNotRemote, setIsNotRemote] = useState(null);
 
   useEffect(async() => {
     try {
       const types = await getTicketsTypes();
       setTicketsTypes(types);
-      console.log(types);
     } catch (err) {
       toast('Um erro apareceu ao trazer as informações!');
     }
@@ -42,7 +42,9 @@ export default function TicketsTypes() {
                     isDisplayed={!ticketType.includesHotel}
                     isSelected={selectedTicketType === ticketType.id}
                     key={ticketType.id}
-                    onClick={() => setSelectedTicketType(ticketType.id)}
+                    onClick={() => {
+                      setSelectedTicketType(ticketType.id);
+                      setIsNotRemote(!ticketType.isRemote);}}
                   >
                     <h1>{ticketType.isRemote ? 'Online' : 'Presencial'}</h1>
                     <h2>R$ {ticketType.price}</h2>
@@ -51,6 +53,14 @@ export default function TicketsTypes() {
               </ModalitiesContainer>
             </>
           )}
+
+          {isNotRemote && (
+            <>
+              <SecondTitle>Ótimo! Agora escolha sua modalidade de hospedagem</SecondTitle>
+            </>
+          )
+
+          }
         </>
       )}
     </>
