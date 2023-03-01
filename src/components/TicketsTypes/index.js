@@ -1,6 +1,6 @@
 import useGetEnrollment from '../../hooks/api/useGetEnrollment';
 import { NotRegisteredMessage } from './NotRegisteredMessage';
-import { TicketsModality, TicketsContainer } from './TicketModality';
+import { TicketsModality, TicketsContainer, SecondTitle } from './TicketModality';
 import { useState, useEffect } from 'react';
 import useGetTicketsTypes from '../../hooks/api/useGetTicketsTypes';
 import { toast } from 'react-toastify';
@@ -54,7 +54,7 @@ export default function TicketsTypes() {
       toast('Um erro apareceu ao trazer as informações!');
     }
   }, [getEnrollmentLoading]);
-  
+
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
@@ -65,18 +65,17 @@ export default function TicketsTypes() {
       ) : (
         <>
           {ticketsTypes && (
-            <TicketsContainer>
-              {ticketsTypes.map((ticketType) => (
-                <TicketsModality key={ticketType.id}>
-                  <h1>
-                    {ticketType.isRemote ? 'Online' : 'Presencial'}
-                  </h1>
-                  <h2>
-                    R$ {ticketType.price}
-                  </h2>
-                </TicketsModality>
-              ))}
-            </TicketsContainer>
+            <>
+              <SecondTitle>Primeiro, escolha sua modalidade de ingresso</SecondTitle>
+              <TicketsContainer>
+                {ticketsTypes.map((ticketType) => (
+                  <TicketsModality key={ticketType.id}>
+                    <h1>{ticketType.isRemote ? 'Online' : 'Presencial'}</h1>
+                    <h2>R$ {ticketType.price}</h2>
+                  </TicketsModality>
+                ))}
+              </TicketsContainer>
+            </>
           )}
         </>
       )}
@@ -85,5 +84,5 @@ export default function TicketsTypes() {
 }
 
 const StyledTypography = styled(Typography)`
-  margin-bottom: 20px!important;
+  margin-bottom: 20px !important;
 `;

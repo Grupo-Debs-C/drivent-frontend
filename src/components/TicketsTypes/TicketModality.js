@@ -1,5 +1,15 @@
 import styled from 'styled-components';
 
+export const SecondTitle = styled.h5`
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  color: #8e8e8e;
+  margin-bottom: 17px;
+  margin-top: 34px;
+`;
+
 export const TicketsModality = styled.div`
   width: 145px;
   height: 145px;
@@ -21,7 +31,7 @@ export const TicketsModality = styled.div`
   }
   > h2 {
     color: #898989;
-    margin-top: 3px;
+    margin-top: 6px;
   }
 `;
 
