@@ -11,9 +11,10 @@ export const SecondTitle = styled.h5`
 `;
 
 export const TicketsModality = styled.div`
+  background-color: ${props => props.isSelected ? '#FFEED2' : 'white'};
   width: 145px;
   height: 145px;
-  border: 1px solid #cecece;
+  border: ${props => props.isSelected ? '' : '1px solid #cecece'};
   border-radius: 20px;
   cursor: pointer;
   margin-right: 24px;

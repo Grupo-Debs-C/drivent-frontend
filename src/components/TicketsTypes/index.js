@@ -40,11 +40,12 @@ import styled from 'styled-components';
 */
 
 export default function TicketsTypes() {
-  const { getEnrollmentLoading, getEnrollmentError, userEnrollment } = useGetEnrollment();
+  const { getEnrollmentLoading, userEnrollment } = useGetEnrollment();
 
-  const { getTicketsTypesLoading, getTicketsTypesError, getTicketsTypes } = useGetTicketsTypes();
+  const { getTicketsTypes } = useGetTicketsTypes();
 
   const [ticketsTypes, setTicketsTypes] = useState(null);
+  const [selectedTicketType, setSelectedTicketType] = useState(null);
 
   useEffect(async() => {
     try {
@@ -54,6 +55,8 @@ export default function TicketsTypes() {
       toast('Um erro apareceu ao trazer as informações!');
     }
   }, [getEnrollmentLoading]);
+
+  console.log(selectedTicketType);
 
   return (
     <>
@@ -69,7 +72,11 @@ export default function TicketsTypes() {
               <SecondTitle>Primeiro, escolha sua modalidade de ingresso</SecondTitle>
               <TicketsContainer>
                 {ticketsTypes.map((ticketType) => (
-                  <TicketsModality key={ticketType.id}>
+                  <TicketsModality
+                    isSelected={selectedTicketType === ticketType.id}
+                    key={ticketType.id}
+                    onClick={() => setSelectedTicketType(ticketType.id)}
+                  >
                     <h1>{ticketType.isRemote ? 'Online' : 'Presencial'}</h1>
                     <h2>R$ {ticketType.price}</h2>
                   </TicketsModality>
