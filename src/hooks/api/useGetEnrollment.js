@@ -6,10 +6,15 @@ import * as enrollmentApi from '../../services/enrollmentApi';
 export default function useGetEnrollment() {
   const token = useToken();
 
-  const address = useAsync(
-    enrollmentApi.getPersonalInformations(token),
-    false
-  );
+  const {
+    loading: getEnrollmentLoading,
+    error: getEnrollmentError,
+    data
+  } = useAsync( () =>  enrollmentApi.getPersonalInformations(token), true);
 
-  return address;
+  return {
+    getEnrollmentLoading,
+    getEnrollmentError,
+    data
+  };
 }
