@@ -18,7 +18,7 @@ export const Modalities = styled.div`
   border-radius: 20px;
   cursor: pointer;
   margin-right: 24px;
-  display: flex;
+  display: ${props => props.isDisplayed ? 'flex' : 'none'};
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -27,6 +27,7 @@ export const Modalities = styled.div`
   font-weight: 400;
   font-size: 16px;
   text-align: center;
+  
   > h1 {
     color: #454545;
   }
@@ -38,4 +39,19 @@ export const Modalities = styled.div`
 
 export const ModalitiesContainer = styled.div`
   display: flex;
+`;
+
+export const ConfirmationButton = styled.button`
+  width: 162px;
+  height: 37px;
+  background-color: #E0E0E0;
+  border-radius: 4px;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  color: #000000;
+  border: none;
 `;
