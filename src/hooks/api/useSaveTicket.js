@@ -1,6 +1,5 @@
 import useAsync from '../useAsync';
 import useToken from '../useToken';
-
 import * as ticketsApi from '../../services/ticketsApi';
 
 export default function useSaveTicket() {
