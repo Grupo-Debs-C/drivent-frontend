@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 import useSaveTicket from '../../hooks/api/useSaveTicket';
 
-export default function TicketsTypes() {
+export default function TicketsTypes({ setTicket }) {
   const { getEnrollmentLoading, userEnrollment } = useGetEnrollment();
   const { getTicketsTypes } = useGetTicketsTypes();
   const { saveTicket } = useSaveTicket();
@@ -49,7 +49,9 @@ export default function TicketsTypes() {
                     key={ticketType.id}
                     onClick={() => {
                       setSelectedTicketType(ticketType.id);
-                      setIsNotRemote(!ticketType.isRemote);}}
+                      setIsNotRemote(!ticketType.isRemote);
+                      ticketType.isRemote ? setSelectedTicketType2(ticketType) : setSelectedTicketType2({});
+                    }}
                   >
                     <h1>{ticketType.isRemote ? 'Online' : 'Presencial'}</h1>
                     <h2>R$ {ticketType.price}</h2>
@@ -83,7 +85,10 @@ export default function TicketsTypes() {
           {selectedTicketType2.price && (
             <>
               <SecondTitle>Fechado! O total ficou em <strong>R$ {selectedTicketType2.price}</strong> Agora é só confirmar:</SecondTitle>
-              <ConfirmationButton onClick={ async() => await saveTicket({ ticketTypeId: selectedTicketType2.id })}>RESERVAR INGRESSO</ConfirmationButton>
+              <ConfirmationButton onClick={async() => {
+                await saveTicket({ ticketTypeId: selectedTicketType2.id });
+                setTicket(selectedTicketType2);
+              }}>RESERVAR INGRESSO</ConfirmationButton>
             </>
           )}
         </>

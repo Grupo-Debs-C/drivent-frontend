@@ -54,4 +54,5 @@ export const ConfirmationButton = styled.button`
   text-align: center;
   color: #000000;
   border: none;
+  cursor: pointer;
 `;

@@ -9,7 +9,7 @@ export default function useGetEnrollment() {
     loading: getEnrollmentLoading,
     error: getEnrollmentError,
     data: userEnrollment
-  } = useAsync( () =>  enrollmentApi.getPersonalInformations(token), true);
+  } = useAsync(() =>  enrollmentApi.getPersonalInformations(token), true);
 
   return {
     getEnrollmentLoading,
