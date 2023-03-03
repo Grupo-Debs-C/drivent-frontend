@@ -4,14 +4,6 @@ import styled from 'styled-components';
 import { Modalities, SecondTitle } from '../TicketsTypes/TicketModality';
 
 export default function FinishTicket({ ticket }) {
-  useEffect(async() => {
-    try {
-      
-    } catch (err) {
-      toast('Um erro apareceu ao trazer as informações!');
-    }
-  }, []);
-
   return (
     <>
       <SecondTitle>Ingresso escolhido</SecondTitle>
@@ -19,7 +11,6 @@ export default function FinishTicket({ ticket }) {
         isDisplayed={true}
         isSelected={true}>
         <h1>{ticket.isRemote ? 'Online' : ticket.includesHotel ? 'Presencial + Com Hotel' : 'Presencial + Sem Hotel'}</h1>
-        {console.log(ticket)}
         <h2>R$ {ticket.TicketType.price}</h2>
       </ModalitiesUpdated>
     </>

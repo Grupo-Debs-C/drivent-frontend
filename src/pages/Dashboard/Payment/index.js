@@ -13,7 +13,7 @@ export default function Payment() {
       const newTicket = await getTicket();
       setTicket(newTicket);
     } catch (err) {
-      toast('Um erro apareceu ao trazer as informações!');
+      toast('Primeiro escolha seu ticket!');
     }
   }, []);
 
