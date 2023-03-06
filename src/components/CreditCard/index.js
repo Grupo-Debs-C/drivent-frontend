@@ -31,6 +31,10 @@ export default function CreditCard({ ticket }) {
 
   const handleSubmit = async(e, data) => {
     e.preventDefault();
+
+    if (!data.issuer || (data.number.length < 13))
+      return toast('Número de cartão inválido!');
+
     const newData = {
       ticketId: ticket.id,
       cardData: {
@@ -71,7 +75,7 @@ export default function CreditCard({ ticket }) {
           focused={cardState.focus}
           name={cardState.name}
           number={cardState.number}
-          issuer={creditCardType(cardState.number)[0]?.niceType}
+          issuer={creditCardType(cardState.number)[0]?.type}
         />
         <CardForm
           onSubmit={(e) => handleSubmit(e, cardState)}
