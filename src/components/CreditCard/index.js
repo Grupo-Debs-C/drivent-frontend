@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import Cards from 'react-credit-cards';
-import 'react-credit-cards/es/styles-compiled.css';
 import * as creditCardType from 'credit-card-type';
 import { toast } from 'react-toastify';
 
@@ -8,9 +6,13 @@ import useSavePayment from '../../hooks/api/useSavePayment';
 import {
   Container,
   CardForm,
-  CardInput
+  CardInput,
+  TopInputs,
+  BottomInputs,
+  StyledCard
 } from './style.js';
 import Button from '../Form/Button';
+import { SecondTitle } from '../TicketsTypes/TicketModality';
 
 function getLastDigits(number) {
   return (number.length > 4) ? number.slice(number.length - 5, number.length - 1) : number;
@@ -26,13 +28,6 @@ export default function CreditCard({ ticket }) {
   };
   const [cardState, setCardState] = useState(cardDetails);
   const { savePaymentLoading, savePayment } = useSavePayment();
-
-  const inputs = {
-    cvc: 'CVC',
-    expiry: 'Valid Thru',
-    name: 'Name',
-    number: 'Card Number'
-  };
 
   const handleSubmit = async(e, data) => {
     e.preventDefault();
@@ -62,47 +57,69 @@ export default function CreditCard({ ticket }) {
     setCardState({
       ...cardState,
       [name]: value,
-      issuer: creditCardType(cardState.number)[0].niceType
+      issuer: creditCardType(cardState.number)[0]?.niceType
     });
   };
 
-  const renderCardInputs = () => {
-    return (
-      (Object.entries(inputs)).map(i => {
-        return (
-          <CardInput
-            key={i[0]}
-            type={(i[0] === 'name') ? 'text' : 'tel'}
-            maxLength={(i[0] === 'expiry' || i[0] === 'cvc') ? '4' : ''}
-            name={i[0]}
-            placeholder={i[1]}
-            onChange={(e) => { handleInputChange(e); }}
-            onFocus={(e) => { handleInputFocus(e); }}
-          />
-        );
-      })
-    );
-  };
-
   return (
-    <Container>
-      <Cards
-        cvc={cardState.cvc}
-        expiry={cardState.expiry}
-        focused={cardState.focus}
-        name={cardState.name}
-        number={cardState.number}
-        issuer={creditCardType(cardState.number)[0].niceType}
-      />
-      <CardForm onSubmit={(e) => handleSubmit(e, cardState)}>
-        {renderCardInputs()}
-        <Button
-          type='submit'
-          disabled={savePaymentLoading}
+    <>
+      <SecondTitle> Pagamento </SecondTitle>
+      <Container>
+        <StyledCard
+          cvc={cardState.cvc}
+          expiry={cardState.expiry}
+          focused={cardState.focus}
+          name={cardState.name}
+          number={cardState.number}
+          issuer={creditCardType(cardState.number)[0]?.niceType}
+        />
+        <CardForm
+          onSubmit={(e) => handleSubmit(e, cardState)}
+          id='card-form'
         >
-          FINALIZAR PAGAMENTO
-        </Button>
-      </CardForm>
-    </Container>
+          <TopInputs>
+            <CardInput
+              type={'tel'}
+              name='number'
+              placeholder='Número do Cartão'
+              onChange={(e) => { handleInputChange(e); }}
+              onFocus={(e) => { handleInputFocus(e); }}
+            />
+            <CardInput
+              type={'text'}
+              name='name'
+              placeholder='Nome'
+              onChange={(e) => { handleInputChange(e); }}
+              onFocus={(e) => { handleInputFocus(e); }}
+            />
+          </TopInputs>
+          <BottomInputs>
+            <CardInput
+              type={'tel'}
+              name='expiry'
+              placeholder='Validade'
+              maxLength='4'
+              onChange={(e) => { handleInputChange(e); }}
+              onFocus={(e) => { handleInputFocus(e); }}
+            />
+            <CardInput
+              type={'tel'}
+              name='cvc'
+              placeholder='CVC'
+              maxLength='4'
+              onChange={(e) => { handleInputChange(e); }}
+              onFocus={(e) => { handleInputFocus(e); }}
+            />
+          </BottomInputs>
+        </CardForm>
+      </Container>
+      <Button
+        form='card-form'
+        type='submit'
+        disabled={savePaymentLoading}
+      >
+        FINALIZAR PAGAMENTO
+      </Button>
+    </>
   );
 };
