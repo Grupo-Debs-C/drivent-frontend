@@ -11,7 +11,7 @@ export default function FinishTicket({ ticket }) {
         isDisplayed={true}
         isSelected={true}>
         <h1>{ticket.isRemote ? 'Online' : ticket.includesHotel ? 'Presencial + Com Hotel' : 'Presencial + Sem Hotel'}</h1>
-        <h2>R$ {ticket.TicketType.price}</h2>
+        <h2>R$ {ticket.price}</h2>
       </ModalitiesUpdated>
     </>
   );
