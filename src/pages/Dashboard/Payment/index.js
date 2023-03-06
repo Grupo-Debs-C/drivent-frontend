@@ -19,7 +19,7 @@ export default function Payment() {
     } catch (err) {
       toast('Primeiro escolha seu ticket!');
     }
-  }, []);
+  }, [ticket]);
 
   return (
     <>
