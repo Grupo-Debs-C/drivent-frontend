@@ -32,8 +32,20 @@ export default function CreditCard({ ticket }) {
   const handleSubmit = async(e, data) => {
     e.preventDefault();
 
-    if (!data.issuer || (data.number.length < 13))
+    const expiryPattern = /^(0?[1-9]|1[0-2])\/(0?[1-9]|[12][0-9]|3[01])$/;
+
+    if (!data.issuer || (data.number.length < 13) || (data.number.length > 19))
       return toast('Número de cartão inválido!');
+
+    if ((data.cvc.length < 3) || ((data.cvc.length === 4) && (data.issuer !== 'Amex') && (data.issuer !== 'Discover')))
+      return toast('CVV inválido!');
+
+    if (!data.name)
+      return toast('Insira um nome');
+
+    if (!expiryPattern.test(cardState.expiry.trim())) {
+      return toast('Insira uma data válida no formato `mês/dia`');
+    }
 
     const newData = {
       ticketId: ticket.id,
@@ -65,6 +77,16 @@ export default function CreditCard({ ticket }) {
     });
   };
 
+  const handleKeyPress = (e) => {
+    const keyCode = e.keyCode || e.which;
+    const keyValue = String.fromCharCode(keyCode);
+    const regex = /[0-9]/;
+
+    if (!regex.test(keyValue)) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <>
       <SecondTitle> Pagamento </SecondTitle>
@@ -88,6 +110,7 @@ export default function CreditCard({ ticket }) {
               placeholder='Número do Cartão'
               onChange={(e) => { handleInputChange(e); }}
               onFocus={(e) => { handleInputFocus(e); }}
+              onKeyPress={(e) => { handleKeyPress(e); }}
             />
             <CardInput
               type={'text'}
@@ -102,7 +125,7 @@ export default function CreditCard({ ticket }) {
               type={'tel'}
               name='expiry'
               placeholder='Validade'
-              maxLength='4'
+              maxLength='5'
               onChange={(e) => { handleInputChange(e); }}
               onFocus={(e) => { handleInputFocus(e); }}
             />
@@ -113,6 +136,7 @@ export default function CreditCard({ ticket }) {
               maxLength='4'
               onChange={(e) => { handleInputChange(e); }}
               onFocus={(e) => { handleInputFocus(e); }}
+              onKeyPress={(e) => { handleKeyPress(e); }}
             />
           </BottomInputs>
         </CardForm>
