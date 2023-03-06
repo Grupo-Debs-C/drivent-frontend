@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { Modalities, SecondTitle } from '../TicketsTypes/TicketModality';
 
