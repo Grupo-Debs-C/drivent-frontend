@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import FinishTicket from '../../../components/FinishTicket';
 import TicketsTypes from '../../../components/TicketsTypes';
+import CreditCard from '../../../components/CreditCard';
 import useGetTicket from '../../../hooks/api/useGetTicket';
 
 export default function Payment() {
@@ -19,7 +20,7 @@ export default function Payment() {
 
   return (
     <>
-      {ticket.id ? <FinishTicket ticket={ticket} /> : <TicketsTypes setTicket={setTicket} />}
+      {ticket.id ? <><FinishTicket ticket={ticket} /><CreditCard ticket={ticket}/></> : <TicketsTypes setTicket={setTicket} />}
     </>
   );
 }
