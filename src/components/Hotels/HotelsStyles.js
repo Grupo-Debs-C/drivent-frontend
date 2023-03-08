@@ -40,3 +40,4 @@ export const HotelOption = styled.div`
   margin-right: 19px;
   cursor: pointer;
 `;
+

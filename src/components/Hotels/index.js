@@ -1,10 +1,9 @@
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
-import { HotelNotAvailableMessage, HotelsContainer, PageTitle } from './HotelsStyles';
+import { HotelNotAvailableMessage, HotelsContainer, PageTitle, HotelOption } from './HotelsStyles';
 import useGetHotels from '../../hooks/api/useGetHotels';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import Hotel from './Hotel';
 
 export default function HotelSelection({ ticket }) {
   const { getHotels } = useGetHotels();
@@ -56,7 +55,10 @@ export default function HotelSelection({ ticket }) {
           <PageTitle>Primeiro, escolha seu hotel</PageTitle>
           <HotelsContainer>
             {hotels.map((h) => (
-              <Hotel>{h.name}</Hotel>
+              <HotelOption>
+                {h.name}
+                {h.image}
+              </HotelOption>
             ))}
           </HotelsContainer>
         </>
