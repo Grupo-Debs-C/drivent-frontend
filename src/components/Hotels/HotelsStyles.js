@@ -39,5 +39,25 @@ export const HotelOption = styled.div`
   height: 264px;
   margin-right: 19px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
+export const HotelImage = styled.img`
+  width: 168px;
+  height: 109px;
+  border-radius: 5px;
+  object-fit: cover;
+  margin-top: 16px;
+`;
+
+export const HotelName = styled.h2`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+
+  color: #343434;
+  margin-top: 10px;
+`;
