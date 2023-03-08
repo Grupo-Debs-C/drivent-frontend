@@ -84,23 +84,25 @@ const StyledTypography = styled(Typography)`
 `;
 
 function getRoomsTypes(rooms) {
-  const capacity = rooms.map((r) => r.capacity);
-
-  if (capacity.includes(1, 2, 3)) {
+  let dict = {};
+  rooms.forEach( r => {
+    dict[r.capacity] = true;
+  });
+  if(dict[1] && dict[2] && dict[3]) {
     return 'Single, Double e Triple';
-  } else if (capacity.includes(1, 2)) {
+  } else if (dict[1] && dict[2]) {
     return 'Single e Double';
-  } else if (capacity.includes(2, 3)) {
+  } else if (dict[2] && dict[3]) {
     return 'Double e Triple';
-  } else if (capacity.includes(1, 3)) {
+  } else if (dict[1] && dict[3]) {
     return 'Single e Triple';
-  } else if (capacity.includes(1)) {
+  } else if (dict[1]) {
     return 'Single';
-  } else if (capacity.includes(2)) {
+  } else if (dict[2]) {
     return 'Double';
-  } else if (capacity.includes(3)) {
+  } else if (dict[3]) {
     return 'Triple';
-  }
+  };
 }
 
 function getCapacity(rooms) {
