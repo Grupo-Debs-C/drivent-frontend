@@ -1,6 +1,15 @@
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
-import { HotelNotAvailableMessage, HotelsContainer, PageTitle, HotelOption, HotelImage, HotelName } from './HotelsStyles';
+import {
+  HotelNotAvailableMessage,
+  HotelsContainer,
+  PageTitle,
+  HotelOption,
+  HotelImage,
+  HotelName,
+  HotelCapacityInfo,
+  HotelMainInfo,
+} from './HotelsStyles';
 import useGetHotels from '../../hooks/api/useGetHotels';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -14,7 +23,6 @@ export default function HotelSelection({ ticket }) {
       try {
         const hotelsInfo = await getHotels();
         setHotels(hotelsInfo);
-        console.log(hotelsInfo);
       } catch (err) {
         toast('Não foi possível mostrar os hotéis.');
       }
@@ -56,8 +64,19 @@ export default function HotelSelection({ ticket }) {
           <HotelsContainer>
             {hotels.map((h) => (
               <HotelOption>
-                <HotelImage alt={h.name} src={h.image} />
-                <HotelName>{h.name}</HotelName>
+                <HotelMainInfo>
+                  <HotelImage alt={h.name} src={h.image} />
+                  <HotelName>{h.name}</HotelName>
+                </HotelMainInfo>
+
+                <HotelCapacityInfo>
+                  <strong>Tipos de acomodação:</strong>
+                  Single e Double
+                </HotelCapacityInfo>
+                <HotelCapacityInfo>
+                  <strong>Vagas Disponíveis:</strong>
+                  214214
+                </HotelCapacityInfo>
               </HotelOption>
             ))}
           </HotelsContainer>

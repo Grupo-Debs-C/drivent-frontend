@@ -39,6 +39,9 @@ export const HotelOption = styled.div`
   height: 264px;
   margin-right: 19px;
   cursor: pointer;
+`;
+
+export const HotelMainInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,7 +60,26 @@ export const HotelName = styled.h2`
   font-weight: 400;
   font-size: 20px;
   line-height: 23px;
-
+  margin: 0 auto;
   color: #343434;
   margin-top: 10px;
+  margin-bottom: 3px;
 `;
+
+export const HotelCapacityInfo = styled.p`
+display: flex;
+flex-direction: column;
+font-style: normal;
+font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+margin-left: 15px;
+margin-top: 10px;
+text-align: left;
+font-weight: 400;
+font-size: 12px;
+color: #3C3C3C;
+>strong{
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+`;
+
