@@ -13,6 +13,7 @@ import {
 import useGetHotels from '../../hooks/api/useGetHotels';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import hotelsHelpers from './helpers';
 
 export default function HotelSelection({ ticket }) {
   const { getHotels } = useGetHotels();
@@ -64,11 +65,11 @@ export default function HotelSelection({ ticket }) {
 
                 <HotelCapacityInfo>
                   <strong>Tipos de acomodação:</strong>
-                  {getRoomsTypes(h.Rooms)}
+                  {hotelsHelpers.getRoomsTypes(h.Rooms)}
                 </HotelCapacityInfo>
                 <HotelCapacityInfo>
                   <strong>Vagas Disponíveis:</strong>
-                  {getCapacity(h.Rooms)}
+                  {hotelsHelpers.getCapacity(h.Rooms)}
                 </HotelCapacityInfo>
               </HotelOption>
             ))}
@@ -83,32 +84,3 @@ const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
 `;
 
-function getRoomsTypes(rooms) {
-  let dict = {};
-  rooms.forEach( r => {
-    dict[r.capacity] = true;
-  });
-  if(dict[1] && dict[2] && dict[3]) {
-    return 'Single, Double e Triple';
-  } else if (dict[1] && dict[2]) {
-    return 'Single e Double';
-  } else if (dict[2] && dict[3]) {
-    return 'Double e Triple';
-  } else if (dict[1] && dict[3]) {
-    return 'Single e Triple';
-  } else if (dict[1]) {
-    return 'Single';
-  } else if (dict[2]) {
-    return 'Double';
-  } else if (dict[3]) {
-    return 'Triple';
-  };
-}
-
-function getCapacity(rooms) {
-  let answer = 1;
-  rooms.forEach( r => {
-    answer *= r.capacity;
-  });
-  return answer;
-}
