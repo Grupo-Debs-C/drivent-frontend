@@ -13,12 +13,10 @@ import {
 import useGetHotels from '../../hooks/api/useGetHotels';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import Loader from 'react-loader-spinner';
 
 export default function HotelSelection({ ticket }) {
   const { getHotels } = useGetHotels();
   const [hotels, setHotels] = useState(null);
-  const [capacityInfo, setCapacityInfo] = useState(null);
 
   useEffect(async() => {
     if (ticket && ticket?.TicketType.includesHotel && ticket?.status === 'PAID') {
@@ -29,22 +27,7 @@ export default function HotelSelection({ ticket }) {
         toast('Não foi possível mostrar os hotéis.');
       }
     }
-
-    if (hotels) {
-      try {
-        const hotelsCapacityInfo = '';
-      } catch (err) {
-        toast('Não foi possível mostrar as informações de capacidade dos hotéis.');
-      }
-    }
-  }, [hotels]);
-
-  /*   const num = 1;
-  hotels.forEach((h) => {
-    if (h.id === num) {
-      console.log(h);
-    }
-  }); */
+  }, []);
 
   return (
     <>
@@ -73,7 +56,7 @@ export default function HotelSelection({ ticket }) {
           <PageTitle>Primeiro, escolha seu hotel</PageTitle>
           <HotelsContainer>
             {hotels.map((h) => (
-              <HotelOption>
+              <HotelOption key={h.id}>
                 <HotelMainInfo>
                   <HotelImage alt={h.name} src={h.image} />
                   <HotelName>{h.name}</HotelName>
@@ -81,11 +64,11 @@ export default function HotelSelection({ ticket }) {
 
                 <HotelCapacityInfo>
                   <strong>Tipos de acomodação:</strong>
-                  {!capacityInfo ? <Loader color="#FFFFFF" height={16} width={16} type="Oval" /> : <>dqw</>}
+                  {getRoomsTypes(h.Rooms)}
                 </HotelCapacityInfo>
                 <HotelCapacityInfo>
                   <strong>Vagas Disponíveis:</strong>
-                  {!capacityInfo ? <Loader color="#FFFFFF" height={16} width={16} type="Oval" /> : <>dqw</>}
+                  {getCapacity(h.Rooms)}
                 </HotelCapacityInfo>
               </HotelOption>
             ))}
@@ -99,3 +82,31 @@ export default function HotelSelection({ ticket }) {
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
 `;
+
+function getRoomsTypes(rooms) {
+  const capacity = rooms.map((r) => r.capacity);
+
+  if (capacity.includes(1, 2, 3)) {
+    return 'Single, Double e Triple';
+  } else if (capacity.includes(1, 2)) {
+    return 'Single e Double';
+  } else if (capacity.includes(2, 3)) {
+    return 'Double e Triple';
+  } else if (capacity.includes(1, 3)) {
+    return 'Single e Triple';
+  } else if (capacity.includes(1)) {
+    return 'Single';
+  } else if (capacity.includes(2)) {
+    return 'Double';
+  } else if (capacity.includes(3)) {
+    return 'Triple';
+  }
+}
+
+function getCapacity(rooms) {
+  let answer = 1;
+  rooms.forEach( r => {
+    answer *= r.capacity;
+  });
+  return answer;
+}
