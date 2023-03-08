@@ -13,10 +13,12 @@ import {
 import useGetHotels from '../../hooks/api/useGetHotels';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import Loader from 'react-loader-spinner';
 
 export default function HotelSelection({ ticket }) {
   const { getHotels } = useGetHotels();
   const [hotels, setHotels] = useState(null);
+  const [capacityInfo, setCapacityInfo] = useState(null);
 
   useEffect(async() => {
     if (ticket && ticket?.TicketType.includesHotel && ticket?.status === 'PAID') {
@@ -27,7 +29,15 @@ export default function HotelSelection({ ticket }) {
         toast('Não foi possível mostrar os hotéis.');
       }
     }
-  }, []);
+
+    if (hotels) {
+      try {
+        const hotelsCapacityInfo = '';
+      } catch (err) {
+        toast('Não foi possível mostrar as informações de capacidade dos hotéis.');
+      }
+    }
+  }, [hotels]);
 
   /*   const num = 1;
   hotels.forEach((h) => {
@@ -71,11 +81,11 @@ export default function HotelSelection({ ticket }) {
 
                 <HotelCapacityInfo>
                   <strong>Tipos de acomodação:</strong>
-                  Single e Double
+                  {!capacityInfo ? <Loader color="#FFFFFF" height={16} width={16} type="Oval" /> : <>dqw</>}
                 </HotelCapacityInfo>
                 <HotelCapacityInfo>
                   <strong>Vagas Disponíveis:</strong>
-                  214214
+                  {!capacityInfo ? <Loader color="#FFFFFF" height={16} width={16} type="Oval" /> : <>dqw</>}
                 </HotelCapacityInfo>
               </HotelOption>
             ))}
