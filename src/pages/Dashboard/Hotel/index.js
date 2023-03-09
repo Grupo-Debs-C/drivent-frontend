@@ -16,7 +16,6 @@ export default function Hotel() {
       const newTicket = await getTicket();
       setTicket(newTicket);
     } catch (err) {
-      toast('Primeiro escolha seu ticket!');
     }
   }, [ticket]);
 
