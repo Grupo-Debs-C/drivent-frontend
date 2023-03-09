@@ -1,4 +1,3 @@
-import { toast } from 'react-toastify';
 import useGetTicket from '../../../hooks/api/useGetTicket';
 import { useState, useEffect } from 'react';
 import HotelSelection from '../../../components/Hotels';
