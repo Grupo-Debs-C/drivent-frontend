@@ -20,7 +20,7 @@ export default function HotelSelection({ ticket }) {
   const [hotels, setHotels] = useState(null);
 
   useEffect(async() => {
-    if (ticket && ticket?.TicketType.includesHotel && ticket?.status === 'PAID') {
+    if (ticket && ticket?.TicketType?.includesHotel && ticket?.status === 'PAID') {
       try {
         const hotelsInfo = await getHotels();
         setHotels(hotelsInfo);
@@ -40,7 +40,7 @@ export default function HotelSelection({ ticket }) {
         </HotelNotAvailableMessage>
       )}
 
-      {ticket?.TicketType.includesHotel === false && (
+      {ticket?.TicketType?.includesHotel === false && (
         <HotelNotAvailableMessage>
           <p>Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades</p>
         </HotelNotAvailableMessage>
