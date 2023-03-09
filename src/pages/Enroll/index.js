@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-
+import qs from 'query-string';
 import AuthLayout from '../../layouts/Auth';
 
 import Input from '../../components/Form/Input';
@@ -21,8 +21,21 @@ export default function Enroll() {
   const { loadingSignUp, signUp } = useSignUp();
 
   const navigate = useNavigate();
-  
+
   const { eventInfo } = useContext(EventInfoContext);
+
+  async function redirectToGitHub() {
+    const GITHUB_URL = 'https://github.com/login/oauth/authorize';
+    const params = {
+      response_type: 'code',
+      scope: 'user',
+      client_id: '8b03db19625ccc7dad31',
+      redirect_uri: 'http://localhost:3000/sign-in',
+    };
+    const queryStrings = qs.stringify(params);
+    const authURL = `${GITHUB_URL}?${queryStrings}`;
+    window.location.href = authURL;
+  }
 
   async function submit(event) {
     event.preventDefault();
@@ -49,10 +62,27 @@ export default function Enroll() {
       <Row>
         <Label>Inscrição</Label>
         <form onSubmit={submit}>
-          <Input label="E-mail" type="text" fullWidth value={email} onChange={e => setEmail(e.target.value)} />
-          <Input label="Senha" type="password" fullWidth value={password} onChange={e => setPassword(e.target.value)} />
-          <Input label="Repita sua senha" type="password" fullWidth value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
-          <Button type="submit" color="primary" fullWidth disabled={loadingSignUp}>Inscrever</Button>
+          <Input label="E-mail" type="text" fullWidth value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input
+            label="Senha"
+            type="password"
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Input
+            label="Repita sua senha"
+            type="password"
+            fullWidth
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <Button type="submit" color="primary" fullWidth disabled={loadingSignUp}>
+            Inscrever
+          </Button>
+          <Button onClick={() => redirectToGitHub()} fullWidth>
+            Entrar com github
+          </Button>
         </form>
       </Row>
       <Row>
