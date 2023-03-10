@@ -20,7 +20,7 @@ export default function HotelSelection({ ticket }) {
   const [hotels, setHotels] = useState(null);
 
   useEffect(async() => {
-    if (ticket && ticket?.TicketType?.includesHotel && ticket?.status === 'PAID') {
+    if ((ticket && ticket?.TicketType?.includesHotel && ticket?.status === 'PAID') && !hotels) {
       try {
         const hotelsInfo = await getHotels();
         setHotels(hotelsInfo);
@@ -28,7 +28,7 @@ export default function HotelSelection({ ticket }) {
         toast('Não foi possível mostrar os hotéis.');
       }
     }
-  }, []);
+  }, [ticket]);
 
   return (
     <>
