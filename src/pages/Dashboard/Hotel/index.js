@@ -9,8 +9,8 @@ export default function Hotel() {
   const { getBooking } = useGetBooking();
   const [ticket, setTicket] = useState({});
   const [booking, setBooking] = useState({});
-  
-  useEffect(async() => {
+
+  useEffect(async () => {
     try {
       const newTicket = await getTicket();
       setTicket(newTicket);
@@ -18,12 +18,12 @@ export default function Hotel() {
     }
   }, [ticket]);
 
-  useEffect(async() => {
+  useEffect(async () => {
     try {
       const newBooking = await getBooking();
       setBooking(newBooking);
     } catch (err) {
-      
+
     }
   }, [booking]);
   return (
@@ -31,7 +31,9 @@ export default function Hotel() {
       {
         (ticket.id && booking.id) ? (
           <FinishBooking booking={booking} />
-        ) : (<HotelSelection ticket={ticket} />)
+        ) : (
+          <HotelSelection ticket={ticket} />
+        )
       }
     </>
   );
