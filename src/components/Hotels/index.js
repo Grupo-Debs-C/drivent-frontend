@@ -9,17 +9,25 @@ import {
   HotelName,
   HotelCapacityInfo,
   HotelMainInfo,
+  RoomList,
+  Title,
+  BookingButton
 } from './HotelsStyles';
 import useGetHotels from '../../hooks/api/useGetHotels';
+import useSaveBooking from '../../hooks/api/useSaveBooking';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import hotelsHelpers from './helpers';
+import { Room } from '../Rooms';
 
 export default function HotelSelection({ ticket }) {
   const { getHotels } = useGetHotels();
   const [hotels, setHotels] = useState(null);
+  const [selectedHotel, setSelectedHotel] = useState({});
+  const [selectedRoom, setSelectedRoom] = useState({});
+  const { saveBookingLoading, saveBooking } = useSaveBooking();
 
-  useEffect(async() => {
+  useEffect(async () => {
     if ((ticket && ticket?.TicketType?.includesHotel && ticket?.status === 'PAID') && !hotels) {
       try {
         const hotelsInfo = await getHotels();
@@ -29,6 +37,25 @@ export default function HotelSelection({ ticket }) {
       }
     }
   }, [ticket]);
+
+  const handleClick = (data) => {
+    if (selectedHotel.id === data.id) {
+      setSelectedHotel({});
+      return;
+    }
+    setSelectedHotel({ id: data.id, rooms: data.Rooms });
+  };
+
+  const submitBooking = (data) => {
+    if (saveBookingLoading)
+      return;
+    if (!data) 
+      return toast('Por favor escolha um quarto.');
+    if (data.Booking.length === data.capacity)
+      return toast('Quarto sem vacâncias');
+
+    return saveBooking({ roomId: data.id });
+  };
 
   return (
     <>
@@ -57,7 +84,11 @@ export default function HotelSelection({ ticket }) {
           <PageTitle>Primeiro, escolha seu hotel</PageTitle>
           <HotelsContainer>
             {hotels.map((h) => (
-              <HotelOption key={h.id}>
+              <HotelOption
+                key={h.id}
+                onClick={() => handleClick(h)}
+                selected={selectedHotel?.id === h.id}
+              >
                 <HotelMainInfo>
                   <HotelImage alt={h.name} src={h.image} />
                   <HotelName>{h.name}</HotelName>
@@ -74,6 +105,33 @@ export default function HotelSelection({ ticket }) {
               </HotelOption>
             ))}
           </HotelsContainer>
+        </>
+      )}
+      {selectedHotel?.id && (
+        <>
+          <Title isVisible={selectedHotel?.id !== undefined}>
+            Ótima pedida! Agora escolha seu quarto
+          </Title>
+          <RoomList isVisible={selectedHotel?.id !== undefined}>
+            {(selectedHotel.rooms).map(data => {
+              return (
+                <Room
+                  data={data}
+                  key={data.id}
+                  selectedRoom={selectedRoom}
+                  setSelectedRoom={setSelectedRoom}
+                />
+              );
+            })}
+          </RoomList>
+          <BookingButton
+            variant='contained'
+            isVisible={selectedHotel?.id !== undefined}
+            onClick={() => submitBooking(selectedRoom.data)}
+            disabled={saveBookingLoading}
+          >
+            RESERVAR QUARTO
+          </BookingButton>
         </>
       )}
     </>

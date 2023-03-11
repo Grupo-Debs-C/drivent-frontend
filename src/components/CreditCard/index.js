@@ -29,7 +29,7 @@ export default function CreditCard({ ticket }) {
   const [cardState, setCardState] = useState(cardDetails);
   const { savePaymentLoading, savePayment } = useSavePayment();
 
-  const handleSubmit = async(e, data) => {
+  const handleSubmit = async (e, data) => {
     e.preventDefault();
 
     const expiryPattern = /^(0?[1-9]|1[0-2])\/(0?[1-9]|[12][0-9]|3[01])$/;

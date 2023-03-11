@@ -34,7 +34,7 @@ export default function PersonalInformationForm() {
   const { handleSubmit, handleChange, data, errors, setData, customHandleChange } = useForm({
     validations: FormValidations,
     // prettier-ignore
-    onSubmit: async(data) => {
+    onSubmit: async (data) => {
       const newData = {
         name: data.name,
         cpf: data.cpf.replaceAll('.', '').replaceAll('-', ''),

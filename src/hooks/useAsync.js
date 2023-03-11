@@ -6,7 +6,7 @@ export default function useAsync(handler, immediate = true) {
   const [loading, setLoading] = useState(immediate);
   const [error, setError] = useState(null);
   //assincronamente, espera pela res
-  const act = async(...args) => {
+  const act = async (...args) => {
     setLoading(true);
     setError(null);
     //cuida da response

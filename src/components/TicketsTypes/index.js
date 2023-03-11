@@ -18,11 +18,11 @@ export default function TicketsTypes({ setTicket }) {
   const [isNotRemote, setIsNotRemote] = useState(null);
   const [priceWithoutHotel, setPriceWithoutHotel] = useState(0);
 
-  useEffect(async() => {
+  useEffect(async () => {
     try {
       const types = await getTicketsTypes();
       setTicketsTypes(types);
-      const ticketWithoutHotel = types.find(( ticket ) => ticket.isRemote === false && ticket.includesHotel === false);
+      const ticketWithoutHotel = types.find((ticket) => ticket.isRemote === false && ticket.includesHotel === false);
       setPriceWithoutHotel(ticketWithoutHotel.price);
     } catch (err) {
       toast('Um erro apareceu ao trazer as informações!');
@@ -85,7 +85,7 @@ export default function TicketsTypes({ setTicket }) {
           {selectedTicketType2.price && (
             <>
               <SecondTitle>Fechado! O total ficou em <strong>R$ {selectedTicketType2.price}</strong> Agora é só confirmar:</SecondTitle>
-              <ConfirmationButton onClick={async() => {
+              <ConfirmationButton onClick={async () => {
                 await saveTicket({ ticketTypeId: selectedTicketType2.id });
                 setTicket(selectedTicketType2);
               }}>RESERVAR INGRESSO</ConfirmationButton>

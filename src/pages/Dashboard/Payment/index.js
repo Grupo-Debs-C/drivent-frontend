@@ -12,7 +12,7 @@ export default function Payment() {
   const { getTicket } = useGetTicket();
   const [ticket, setTicket] = useState({});
 
-  useEffect(async() => {
+  useEffect(async () => {
     try {
       const newTicket = await getTicket();
       setTicket(newTicket);
