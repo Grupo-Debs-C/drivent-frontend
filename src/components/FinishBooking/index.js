@@ -1,6 +1,13 @@
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
-import { HotelCapacityInfo, HotelImage, HotelMainInfo, HotelName, HotelOption } from '../Hotels/HotelsStyles';
+import {
+  HotelCapacityInfo,
+  HotelImage,
+  HotelMainInfo,
+  HotelName,
+  HotelOption,
+  BookingButton,
+} from '../Hotels/HotelsStyles';
 import { SecondTitle } from '../TicketsTypes/TicketModality';
 import bookingHelpers from './helpers';
 
@@ -23,7 +30,10 @@ export default function FinishBooking({ booking }) {
           <strong>Pessoas no seu quarto</strong>
           {bookingHelpers.getPeopleDescription(booking.occupancy)}
         </HotelCapacityInfo>
-      </HotelOptionUpdated>   
+      </HotelOptionUpdated>
+      <BookingButton variant="contained" isVisible={true}>
+        TROCAR DE QUARTO
+      </BookingButton>
     </>
   );
 }
@@ -34,5 +44,6 @@ const StyledTypography = styled(Typography)`
 
 const HotelOptionUpdated = styled(HotelOption)`
   cursor: initial;
-  background-color: #FFEED2;
+  background-color: #ffeed2;
+  margin-bottom: 37px;
 `;

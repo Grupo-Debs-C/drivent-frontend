@@ -6,11 +6,15 @@ import {
 } from './style';
 
 export function Room({ data, selectedRoom, setSelectedRoom }) {
+  //faz uma array com o tamanho da capacidade do quarto
   let vacancies = Array(data.capacity).fill('');
+
+  //preenche a array criada com os dados do booking
   (data.Booking).forEach(b => {
     vacancies[vacancies.indexOf('')] = b;
   });
 
+  //vai de props pro styled components mudar de cor 8=)
   const status = (data, selectedRoom) => {
     if (selectedRoom.id === data.id) 
       return 'selected';
