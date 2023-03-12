@@ -27,7 +27,6 @@ export default function FinishBooking({ booking, setChosenRoom }) {
       </HotelOptionUpdated>
       <UpdateBookingButton
         onClick={() => {
-          console.log('oirra');
           setChosenRoom(false);
         }}
       >

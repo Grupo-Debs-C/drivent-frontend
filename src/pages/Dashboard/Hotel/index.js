@@ -50,6 +50,8 @@ export default function Hotel() {
                 </Title>
                 <RoomList
                   stateData={stateData}
+                  setChosenRoom={setChosenRoom}
+                  booking={booking}
                 />
               </>
             )}
