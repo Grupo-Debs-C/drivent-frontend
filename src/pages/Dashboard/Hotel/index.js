@@ -33,7 +33,7 @@ export default function Hotel() {
     } catch (err) {
 
     }
-  }, [booking, selectedHotel]);
+  }, [booking, selectedHotel, chosenRoom]);
 
   return (
     <>
