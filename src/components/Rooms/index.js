@@ -14,7 +14,6 @@ import {
 function Room({ data, selectedRoom, setSelectedRoom }) {
   let vacancies = Array(data.capacity).fill('');
 
-  //preenche a array criada com os dados do booking
   (data.Booking).forEach(b => {
     vacancies[vacancies.indexOf('')] = b;
   });

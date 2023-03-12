@@ -1,17 +1,11 @@
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
-import {
-  HotelCapacityInfo,
-  HotelImage,
-  HotelMainInfo,
-  HotelName,
-  HotelOption,
-  BookingButton,
-} from '../Hotels/HotelsStyles';
+import { HotelCapacityInfo, HotelImage, HotelMainInfo, HotelName, HotelOption } from '../Hotels/HotelsStyles';
 import { SecondTitle } from '../TicketsTypes/TicketModality';
 import bookingHelpers from './helpers';
+import Button from '../Form/Button';
 
-export default function FinishBooking({ booking }) {
+export default function FinishBooking({ booking, setChosenRoom }) {
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
@@ -31,9 +25,14 @@ export default function FinishBooking({ booking }) {
           {bookingHelpers.getPeopleDescription(booking.occupancy)}
         </HotelCapacityInfo>
       </HotelOptionUpdated>
-      <BookingButton variant="contained" isVisible={true}>
+      <UpdateBookingButton
+        onClick={() => {
+          console.log('oirra');
+          setChosenRoom(false);
+        }}
+      >
         TROCAR DE QUARTO
-      </BookingButton>
+      </UpdateBookingButton>
     </>
   );
 }
@@ -46,4 +45,8 @@ const HotelOptionUpdated = styled(HotelOption)`
   cursor: initial;
   background-color: #ffeed2;
   margin-bottom: 37px;
+`;
+
+const UpdateBookingButton = styled(Button)`
+  margin-top: 20px;
 `;
