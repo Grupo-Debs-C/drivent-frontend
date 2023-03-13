@@ -41,7 +41,7 @@ export default function SignIn() {
     const { code } = qs.parseUrl(window.location.href).query;
     if (code) {
       try {
-        const { data } = await axios.post('http://localhost:4000/github', { code });
+        const { data } = await axios.post('https://drivent-backend-17a0.onrender.com/github', { code });
 
         const body = {
           email: data.email,
@@ -79,7 +79,7 @@ export default function SignIn() {
       response_type: 'code',
       scope: 'user',
       client_id: '8b03db19625ccc7dad31',
-      redirect_uri: 'http://localhost:3000/sign-in',
+      redirect_uri: 'https://drivent-frontend-wheat.vercel.app/sign-in',
     };
     const queryStrings = qs.stringify(params);
     const authURL = `${GITHUB_URL}?${queryStrings}`;
