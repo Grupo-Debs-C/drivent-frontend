@@ -20,6 +20,7 @@ import useSignIn from '../../hooks/api/useSignIn';
 import useSignUp from '../../hooks/api/useSignUp';
 
 export default function SignIn() {
+  console.log(process.env.REACT_APP_API_BASE_URL);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
