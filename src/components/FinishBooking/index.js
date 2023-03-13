@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { HotelCapacityInfo, HotelImage, HotelMainInfo, HotelName, HotelOption } from '../Hotels/HotelsStyles';
 import { SecondTitle } from '../TicketsTypes/TicketModality';
 import bookingHelpers from './helpers';
+import Button from '../Form/Button';
 
-export default function FinishBooking({ booking }) {
+export default function FinishBooking({ booking, setChosenRoom }) {
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
@@ -23,7 +24,14 @@ export default function FinishBooking({ booking }) {
           <strong>Pessoas no seu quarto</strong>
           {bookingHelpers.getPeopleDescription(booking.occupancy)}
         </HotelCapacityInfo>
-      </HotelOptionUpdated>   
+      </HotelOptionUpdated>
+      <UpdateBookingButton
+        onClick={() => {
+          setChosenRoom(false);
+        }}
+      >
+        TROCAR DE QUARTO
+      </UpdateBookingButton>
     </>
   );
 }
@@ -34,5 +42,10 @@ const StyledTypography = styled(Typography)`
 
 const HotelOptionUpdated = styled(HotelOption)`
   cursor: initial;
-  background-color: #FFEED2;
+  background-color: #ffeed2;
+  margin-bottom: 37px;
+`;
+
+const UpdateBookingButton = styled(Button)`
+  margin-top: 20px;
 `;

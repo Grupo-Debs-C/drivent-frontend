@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import useSaveBooking from '../../hooks/api/useSaveBooking';
+import useUpdateBooking from '../../hooks/api/useUpdateBooking';
 import {
   RoomListWrapper,
   RoomWrapper,
@@ -13,6 +14,7 @@ import {
 
 function Room({ data, selectedRoom, setSelectedRoom }) {
   let vacancies = Array(data.capacity).fill('');
+
   (data.Booking).forEach(b => {
     vacancies[vacancies.indexOf('')] = b;
   });
@@ -63,26 +65,28 @@ function Room({ data, selectedRoom, setSelectedRoom }) {
   );
 };
 
-export default function RoomList({ stateData }) {
+export default function RoomList({ stateData, setChosenRoom, booking }) {
   const [selectedRoom, setSelectedRoom] = useState({});
   const { selectedHotel, setSelectedHotel } = stateData;
   const { saveBookingLoading, saveBooking } = useSaveBooking();
+  const { updateBookingLoading, updateBooking } = useUpdateBooking();
 
   const submitBooking = async (data) => {
-    if (saveBookingLoading)
+    if (saveBookingLoading || updateBookingLoading)
       return;
     if (!data)
       return toast('Por favor escolha um quarto.');
-
+    
     try {
-      await saveBooking({ roomId: data.id });
+      !booking.id ? await (saveBooking({ roomId: data.id })) : await (updateBooking({ roomId: data.id }, booking.id));
       toast('Reserva efetuada!');
       setSelectedHotel({ ...selectedHotel });
+      setChosenRoom(true);
     } catch (err) {
       toast('Não foi possível efetuar a reserva!');
     }
   };
-
+  
   return (
     <>
       <RoomListWrapper isVisible={selectedHotel?.id !== undefined}>

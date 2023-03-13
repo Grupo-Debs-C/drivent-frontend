@@ -12,6 +12,7 @@ export default function Hotel() {
   const [ticket, setTicket] = useState({});
   const [booking, setBooking] = useState({});
   const [selectedHotel, setSelectedHotel] = useState({});
+  const [chosenRoom, setChosenRoom] = useState(true);
   const stateData = {
     selectedHotel: selectedHotel,
     setSelectedHotel: setSelectedHotel
@@ -32,13 +33,13 @@ export default function Hotel() {
     } catch (err) {
 
     }
-  }, [booking, selectedHotel]);
+  }, [booking, selectedHotel, chosenRoom]);
 
   return (
     <>
       {
-        (ticket.id && booking.id) ? (
-          <FinishBooking booking={booking} />
+        ((ticket.id && booking.id) && chosenRoom) ? (
+          <FinishBooking booking={booking} setChosenRoom={setChosenRoom} />
         ) : (
           <>
             <HotelSelection ticket={ticket} stateData={stateData} />
@@ -49,6 +50,8 @@ export default function Hotel() {
                 </Title>
                 <RoomList
                   stateData={stateData}
+                  setChosenRoom={setChosenRoom}
+                  booking={booking}
                 />
               </>
             )}
