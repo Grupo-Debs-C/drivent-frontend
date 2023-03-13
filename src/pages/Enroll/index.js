@@ -41,7 +41,7 @@ export default function Enroll() {
       response_type: 'code',
       scope: 'user',
       client_id: '8b03db19625ccc7dad31',
-      redirect_uri: 'http://localhost:3000/sign-in',
+      redirect_uri: 'https://drivent-frontend-wheat.vercel.app/sign-in',
     };
     const queryStrings = qs.stringify(params);
     const authURL = `${GITHUB_URL}?${queryStrings}`;
