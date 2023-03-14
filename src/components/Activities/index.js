@@ -9,6 +9,7 @@ export default function ActivitiesSelection({ ticket }) {
   const { event, eventLoading } = useEvent();
   const [eventDays, setEventDays] = useState([]);
   //ao ser clicado, o index do dia da semana é salvo aqui:
+  //btw: se você achou estranho o fato do título da página sumir ao clicar o botão, saiba que eu também achei, mas no Figma tá assim, fazer o quê
   const [selectedDay, setSelectedDay] = useState(null);
 
   useEffect(() => {
