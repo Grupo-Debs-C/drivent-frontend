@@ -3,26 +3,7 @@ import styled from 'styled-components';
 import { ActivitiesNotAvailableMessage } from './ActivitiesStyles';
 import useEvent from '../../hooks/api/useEvent';
 import { useEffect, useState } from 'react';
-
-function getdays(startsAt, endsAt) {
-  const ONE_DAY_IN_MILLISECONDS = 8.64e7;
-  const daysDifference = (new Date(endsAt) - new Date(startsAt)) / ONE_DAY_IN_MILLISECONDS;
-  const daysAmount = [];
-  let candidate = startsAt.getTime();
-
-  for (let i = 0; i <= daysDifference; i++) {
-    const weekDay = new Date(candidate).getDay(); // pôr o nome do dia + o day/month
-    const monthDay = new Date(candidate).getDate();
-    const month = new Date(candidate).getMonth();
-    const obj = {
-      weekDayName: getWeekDayName(weekDay),
-      date: `${monthDay < 10 ? '0' + monthDay : monthDay}/${month < 10 ? '0' + month : month}`
-    };
-    daysAmount.push(obj);
-    candidate += ONE_DAY_IN_MILLISECONDS;
-  }
-  return daysAmount;
-}
+import activitiesHelpers from './helpers';
 
 export default function ActivitiesSelection({ ticket }) {
   const { event, eventLoading } = useEvent();
@@ -32,8 +13,8 @@ export default function ActivitiesSelection({ ticket }) {
     if (event) {
       const startsAt = new Date(event.startsAt);
       const endsAt = new Date(event.endsAt);
-      const days = getdays(startsAt, endsAt);
 
+      const days = activitiesHelpers.getDays(startsAt, endsAt);
       setEventDays(days);
     }
   }, [eventLoading]);
@@ -93,24 +74,3 @@ const DayButton = styled.button`
   margin-left: 43px;
   margin-bottom: 35px;
 `;
-
-function getWeekDayName(weekDayNumber) {
-  switch (weekDayNumber) {
-  case 0:
-    return 'Domingo';
-  case 1:
-    return 'Segunda';
-  case 2:
-    return 'Terça';
-  case 3:
-    return 'Quarta';
-  case 4:
-    return 'Quinta';
-  case 5:
-    return 'Sexta';
-  case 6:
-    return 'Sábado';
-  default:
-    return 'Dia de São Nunca';
-  }
-}
