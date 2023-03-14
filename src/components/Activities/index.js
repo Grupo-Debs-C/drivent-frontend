@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
-import { ActivitiesNotAvailableMessage } from './ActivitiesStyles';
+import { ActivitiesNotAvailableMessage, DayButton, PageTitle } from './ActivitiesStyles';
 import useEvent from '../../hooks/api/useEvent';
 import { useEffect, useState } from 'react';
 import activitiesHelpers from './helpers';
@@ -64,29 +64,4 @@ export default function ActivitiesSelection({ ticket }) {
 
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
-`;
-
-const DayButton = styled.button`
-  background-color: ${(props) => (props.isSelected ? '#FFD37D' : '#e0e0e0')};
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
-  border-radius: 4px;
-  width: 131px;
-  height: 37px;
-  border: none;
-  font-family: 'Roboto';
-  font-weight: 400;
-  font-size: 14px;
-  margin-right: 43px;
-  margin-bottom: 35px;
-  cursor: pointer;
-`;
-
-export const PageTitle = styled.h1`
-  margin-top: 26px;
-  margin-bottom: 28px;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 23px;
-  color: #8e8e8e;
 `;
