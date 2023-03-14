@@ -50,9 +50,9 @@ export default function ActivitiesSelection({ ticket }) {
           ) : (
             <>
               {selectedDay === null && <PageTitle>Primeiro, filtre pelo dia do evento: </PageTitle>}
-              {eventDays.map((e, i) => (
+              {eventDays.map((day, i) => (
                 <DayButton isSelected={selectedDay === i} key={i} onClick={() => setSelectedDay(i)}>
-                  {e.weekDayName}, {e.date}
+                  {day.weekDayName}, {day.date}
                 </DayButton>
               ))}
             </>
