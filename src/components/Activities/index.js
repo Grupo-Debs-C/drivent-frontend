@@ -48,6 +48,7 @@ export default function ActivitiesSelection({ ticket }) {
             <>Carregando...</>
           ) : (
             <>
+              {!selectedDay && <PageTitle>Primeiro, filtre pelo dia do evento: </PageTitle>}
               {eventDays.map((e, i) => (
                 <DayButton isSelected={selectedDay === i} key={i} onClick={() => setSelectedDay(i)}>
                   {e.weekDayName}, {e.date}
@@ -66,7 +67,7 @@ const StyledTypography = styled(Typography)`
 `;
 
 const DayButton = styled.button`
-  background-color: ${props => props.isSelected? '#FFD37D' : '#e0e0e0'};
+  background-color: ${(props) => (props.isSelected ? '#FFD37D' : '#e0e0e0')};
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
   width: 131px;
@@ -75,7 +76,17 @@ const DayButton = styled.button`
   font-family: 'Roboto';
   font-weight: 400;
   font-size: 14px;
-  margin-left: 43px;
+  margin-right: 43px;
   margin-bottom: 35px;
   cursor: pointer;
+`;
+
+export const PageTitle = styled.h1`
+  margin-top: 26px;
+  margin-bottom: 28px;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+  color: #8e8e8e;
 `;
