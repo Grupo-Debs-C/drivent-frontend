@@ -8,6 +8,8 @@ import activitiesHelpers from './helpers';
 export default function ActivitiesSelection({ ticket }) {
   const { event, eventLoading } = useEvent();
   const [eventDays, setEventDays] = useState([]);
+  //ao ser clicado, o index do dia da semana é salvo aqui:
+  const [selectedDay, setSelectedDay] = useState(null);
 
   useEffect(() => {
     if (event) {
@@ -43,11 +45,13 @@ export default function ActivitiesSelection({ ticket }) {
       {!ticket?.TicketType?.isRemote && ticket?.status === 'PAID' && (
         <>
           {eventLoading ? (
-            <>carregando...</>
+            <>Carregando...</>
           ) : (
             <>
               {eventDays.map((e, i) => (
-                <DayButton key={i}>{e.weekDayName}, {e.date}</DayButton>
+                <DayButton isSelected={selectedDay === i} key={i} onClick={() => setSelectedDay(i)}>
+                  {e.weekDayName}, {e.date}
+                </DayButton>
               ))}
             </>
           )}
@@ -62,7 +66,7 @@ const StyledTypography = styled(Typography)`
 `;
 
 const DayButton = styled.button`
-  background: #e0e0e0;
+  background-color: ${props => props.isSelected? '#FFD37D' : '#e0e0e0'};
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
   width: 131px;
@@ -73,4 +77,5 @@ const DayButton = styled.button`
   font-size: 14px;
   margin-left: 43px;
   margin-bottom: 35px;
+  cursor: pointer;
 `;
