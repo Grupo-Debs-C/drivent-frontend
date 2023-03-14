@@ -4,26 +4,38 @@ import { ActivitiesNotAvailableMessage } from './ActivitiesStyles';
 import useEvent from '../../hooks/api/useEvent';
 import { useEffect, useState } from 'react';
 
+function getdays(startsAt, endsAt) {
+  const ONE_DAY_IN_MILLISECONDS = 8.64e7;
+  const daysDifference = (new Date(endsAt) - new Date(startsAt)) / ONE_DAY_IN_MILLISECONDS;
+  const daysAmount = [];
+  let candidate = startsAt.getTime();
+
+  for (let i = 0; i <= daysDifference; i++) {
+    const weekDay = new Date(candidate).getDay(); // pôr o nome do dia + o day/month
+    const monthDay = new Date(candidate).getDate();
+    const month = new Date(candidate).getMonth();
+    const obj = {
+      weekDayName: getWeekDayName(weekDay),
+      date: `${monthDay}/${month}`
+    };
+    daysAmount.push(obj);
+    candidate += ONE_DAY_IN_MILLISECONDS;
+  }
+  return daysAmount;
+}
+
 export default function ActivitiesSelection({ ticket }) {
   const { event, eventLoading } = useEvent();
   const [eventDays, setEventDays] = useState([]);
 
   useEffect(() => {
+    //TODO : transformar isso numa função pra limpar o código
     if (event) {
-      const ONE_DAY_IN_MILLISECONDS = 8.64e7;
       const startsAt = new Date(event.startsAt);
       const endsAt = new Date(event.endsAt);
-      const daysDifference = (new Date(endsAt) - new Date(startsAt)) / ONE_DAY_IN_MILLISECONDS;
+      const x = getdays(startsAt, endsAt);
 
-      const daysAmount = [];
-      let candidate = startsAt.getTime();
-
-      for (let i = 0; i <= daysDifference; i++) {
-        const weekDay = new Date(candidate).getDay();
-        daysAmount.push(weekDay);
-        candidate += ONE_DAY_IN_MILLISECONDS;
-      }
-      setEventDays(...eventDays, daysAmount);
+      setEventDays(...eventDays, x);
     }
   }, [eventLoading]);
 
@@ -54,8 +66,8 @@ export default function ActivitiesSelection({ ticket }) {
             <>carregando...</>
           ) : (
             <>
-              {eventDays.map((e) => (
-                <>oi</>
+              {eventDays.map((e, i) => (
+                <DayButton key={i}>{e.weekDayName}, {e.date}</DayButton>
               ))}
             </>
           )}
@@ -68,3 +80,38 @@ export default function ActivitiesSelection({ ticket }) {
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
 `;
+
+const DayButton = styled.button`
+  background: #e0e0e0;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  width: 131px;
+  height: 37px;
+  border: none;
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 43px;
+  margin-bottom: 35px;
+`;
+
+function getWeekDayName(weekDayNumber) {
+  switch (weekDayNumber) {
+  case 0:
+    return 'Domingo';
+  case 1:
+    return 'Segunda';
+  case 2:
+    return 'Terça';
+  case 3:
+    return 'Quarta';
+  case 4:
+    return 'Quinta';
+  case 5:
+    return 'Sexta';
+  case 6:
+    return 'Sábado';
+  default:
+    return 'Dia de São Nunca';
+  }
+}
