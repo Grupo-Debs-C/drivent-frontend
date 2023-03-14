@@ -16,7 +16,7 @@ function getdays(startsAt, endsAt) {
     const month = new Date(candidate).getMonth();
     const obj = {
       weekDayName: getWeekDayName(weekDay),
-      date: `${monthDay}/${month}`
+      date: `${monthDay < 10 ? '0' + monthDay : monthDay}/${month < 10 ? '0' + month : month}`
     };
     daysAmount.push(obj);
     candidate += ONE_DAY_IN_MILLISECONDS;
@@ -29,13 +29,12 @@ export default function ActivitiesSelection({ ticket }) {
   const [eventDays, setEventDays] = useState([]);
 
   useEffect(() => {
-    //TODO : transformar isso numa função pra limpar o código
     if (event) {
       const startsAt = new Date(event.startsAt);
       const endsAt = new Date(event.endsAt);
-      const x = getdays(startsAt, endsAt);
+      const days = getdays(startsAt, endsAt);
 
-      setEventDays(...eventDays, x);
+      setEventDays(days);
     }
   }, [eventLoading]);
 
