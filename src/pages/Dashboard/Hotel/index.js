@@ -24,7 +24,7 @@ export default function Hotel() {
       setTicket(newTicket);
     } catch (err) {
     }
-  }, [ticket]);
+  }, []);
 
   useEffect(async () => {
     try {
@@ -33,7 +33,7 @@ export default function Hotel() {
     } catch (err) {
 
     }
-  }, [booking, selectedHotel, chosenRoom]);
+  }, [selectedHotel, chosenRoom]);
 
   return (
     <>

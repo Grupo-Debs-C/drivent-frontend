@@ -19,31 +19,31 @@ export default function Payment() {
     } catch (err) {
       toast('Primeiro escolha seu ticket!');
     }
-  }, [ticket]);
+  }, []);
 
   return (
     <>
-      {
-        ticket.id ? (
-          <>
-            <FinishTicket ticket={ticket} />
-            {
-              (ticket?.status === 'PAID') ? (
-                <>
-                  <SecondTitle>Pagamento</SecondTitle>
-                  <PaymentConfirmation>
-                    <img alt="confirmation" src={ConfirmationImg}></img>
-                    <div>
-                      <h1>Pagamento confirmado!</h1>
-                      <h2>Prossiga para escolha da hospedagem, e atividades</h2>
-                    </div>
-                  </PaymentConfirmation>
-                </>
-              ) : <CreditCard ticket={ticket} />
-            }
-          </>
-        ) : <TicketsTypes setTicket={setTicket} />
-      }
+      {ticket.id ? (
+        <>
+          <FinishTicket ticket={ticket} />
+          {ticket?.status === 'PAID' ? (
+            <>
+              <SecondTitle>Pagamento</SecondTitle>
+              <PaymentConfirmation>
+                <img alt="confirmation" src={ConfirmationImg}></img>
+                <div>
+                  <h1>Pagamento confirmado!</h1>
+                  <h2>Prossiga para escolha da hospedagem, e atividades</h2>
+                </div>
+              </PaymentConfirmation>
+            </>
+          ) : (
+            <CreditCard ticket={ticket} />
+          )}
+        </>
+      ) : (
+        <TicketsTypes setTicket={setTicket} />
+      )}
     </>
   );
 }
