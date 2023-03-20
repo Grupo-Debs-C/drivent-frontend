@@ -9,7 +9,7 @@ import useGetTicket from '../../../hooks/api/useGetTicket';
 import ConfirmationImg from '../../../assets/images/Vector.png';
 
 export default function Payment() {
-  const { getTicketLoading, getTicket } = useGetTicket();
+  const { getTicket } = useGetTicket();
   const [ticket, setTicket] = useState({});
 
   useEffect(async () => {
@@ -19,31 +19,31 @@ export default function Payment() {
     } catch (err) {
       toast('Primeiro escolha seu ticket!');
     }
-  }, [getTicketLoading]);
+  }, []);
 
   return (
     <>
-      {
-        ticket.id ? (
-          <>
-            <FinishTicket ticket={ticket} />
-            {
-              (ticket?.status === 'PAID') ? (
-                <>
-                  <SecondTitle>Pagamento</SecondTitle>
-                  <PaymentConfirmation>
-                    <img alt="confirmation" src={ConfirmationImg}></img>
-                    <div>
-                      <h1>Pagamento confirmado!</h1>
-                      <h2>Prossiga para escolha da hospedagem, e atividades</h2>
-                    </div>
-                  </PaymentConfirmation>
-                </>
-              ) : <CreditCard ticket={ticket} />
-            }
-          </>
-        ) : <TicketsTypes setTicket={setTicket} />
-      }
+      {ticket.id ? (
+        <>
+          <FinishTicket ticket={ticket} />
+          {ticket?.status === 'PAID' ? (
+            <>
+              <SecondTitle>Pagamento</SecondTitle>
+              <PaymentConfirmation>
+                <img alt="confirmation" src={ConfirmationImg}></img>
+                <div>
+                  <h1>Pagamento confirmado!</h1>
+                  <h2>Prossiga para escolha da hospedagem, e atividades</h2>
+                </div>
+              </PaymentConfirmation>
+            </>
+          ) : (
+            <CreditCard ticket={ticket} />
+          )}
+        </>
+      ) : (
+        <TicketsTypes setTicket={setTicket} />
+      )}
     </>
   );
 }
