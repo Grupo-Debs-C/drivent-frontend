@@ -15,8 +15,6 @@ import { toast } from 'react-toastify';
 export default function ActivitiesSelection({ ticket }) {
   const { event, eventLoading } = useEvent();
   const [eventDays, setEventDays] = useState([]);
-  //ao ser clicado, o index do dia da semana é salvo aqui:
-  //btw: se você achou estranho o fato do título da página sumir ao clicar o botão, saiba que eu também achei, mas no Figma tá assim, fazer o quê
   const [selectedDay, setSelectedDay] = useState(null);
   const [localities, setLocalities] = useState([]);
   const [activities, setActivities] = useState([]);
@@ -82,44 +80,54 @@ export default function ActivitiesSelection({ ticket }) {
               <div>
                 {eventDays.map((day, i) => {
                   return (
-                    <DayButton isSelected={selectedDay === i} key={i} onClick={() => setSelectedDay(i)}>
+                    <DayButton
+                      isSelected={selectedDay === i}
+                      key={i}
+                      onClick={() => {
+                        console.log(activities);
+                        let x = dayjs(activities[0].endsAt);
+                        console.log(x.diff(dayjs(activities[0].startAt)) / 3.6e+6
+                        );
+                        setSelectedDay(i);
+                      }}
+                    >
                       {day.weekDayName}, {day.date}
                     </DayButton>
                   );
                 })}
               </div>
-              {selectedDay !== null &&
+              {selectedDay !== null && (
                 <ActivitiesList localities={localities}>
-                  {localities.map(l => {
+                  {localities.map((l) => {
                     return (
                       <Locality>
                         <p>{l.name}</p>
                         <Activities>
-                          {activities.map(a => {
+                          {activities.map((a) => {
                             if (a.localityId === l.id) {
                               return (
-                                <ActivityWrapper onClick={() => handleClick(a.id)}>
+                                <ActivityWrapper
+                                  numberOfHours={dayjs(a.endsAt).diff(dayjs(a.startAt)) / 3.6e+6}
+                                  onClick={() => handleClick(a.id)}
+                                >
                                   <ActivityText>
-                                    <ActivityName>
-                                      {a.Name}
-                                    </ActivityName>
+                                    <ActivityName>{a.Name}</ActivityName>
                                     <ActivityDuration>
-                                      {
-                                        `${dayjs(a.startAt).format('HH:mm')} - ${dayjs(a.endsAt).format('HH:mm')}`
-                                      }
+                                      {`${dayjs(a.startAt).format('HH:mm')} - ${dayjs(a.endsAt).format('HH:mm')}`}
                                     </ActivityDuration>
                                   </ActivityText>
+                                  <Line />
                                   <ActivityVacancies>
-                                    {(a.vacancyLimit - a.Vacancy.length > 0) ? (
-                                      <>
-                                        <VacancyAvailable />
-                                        {a.vacancyLimit - a.Vacancy.length} vagas
-                                      </>
+                                    {a.vacancyLimit - a.Vacancy.length > 0 ? (
+                                      <AvailableContainer>
+                                        <AvailableIcon />
+                                        <h1>{a.vacancyLimit - a.Vacancy.length} vagas</h1>
+                                      </AvailableContainer>
                                     ) : (
-                                      <>
+                                      <UnavailableContainer>
                                         <VacancyFull />
                                         Esgotado
-                                      </>
+                                      </UnavailableContainer>
                                     )}
                                   </ActivityVacancies>
                                 </ActivityWrapper>
@@ -132,7 +140,7 @@ export default function ActivitiesSelection({ ticket }) {
                     );
                   })}
                 </ActivitiesList>
-              }
+              )}
             </ScreenStyle>
           )}
         </>
@@ -146,81 +154,132 @@ const StyledTypography = styled(Typography)`
 `;
 
 const ScreenStyle = styled.div`
-display: flex;
-flex-direction: column;
-height: 100%;
-
-& > div {
   display: flex;
-  flex-direction: row;
-}
+  flex-direction: column;
+  height: 100%;
+
+  & > div {
+    display: flex;
+    flex-direction: row;
+  }
 `;
 
 const ActivitiesList = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
 `;
 
 const Locality = styled.div`
-display: flex;
-flex-direction: column;
-width: 17rem;
-justify-content: center;
-align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 17rem;
+  justify-content: center;
+  align-items: center;
 
-p {
-  color: #7B7B7B;
-  margin-bottom: 15px;
-}
+  p {
+    color: #7b7b7b;
+    margin-bottom: 15px;
+  }
 `;
 
 const Activities = styled.div`
-height: 100%;
-width: inherit;
-border: solid 1px #D7D7D7;
-padding: 0.8rem;
+  height: 100%;
+  width: inherit;
+  border: solid 1px #d7d7d7;
+  padding: 0.8rem;
 `;
 
 const ActivityWrapper = styled.div`
-  background: #F1F1F1;
+  background: #f1f1f1;
   display: flex;
   flex-direction: row;
   border-radius: 0.4rem;
-  padding: 1rem;
+  padding: 10px;
   justify-content: space-between;
+  margin-bottom: 10px;
+  height: ${(props) => props.numberOfHours * '80'}px; // mudar isso aqui ó
 `;
 
 const ActivityText = styled.div`
   display: flex;
   flex-direction: column;
+  width: 199px;
 `;
 
 const ActivityName = styled.h4`
   font-weight: bold;
-  margin-bottom: 0.4rem;
+  margin-bottom: 6px;
   font-size: 12px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  color: #343434;
 `;
 
 const ActivityDuration = styled.h5`
   font-size: 12px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #343434;
 `;
 
 const ActivityVacancies = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 63px;
+  margin-left: 10px;
 `;
 
-const VacancyAvailable = styled(BoxArrowInRight)`
-  height: 2rem;
-  width: 2rem;
+const AvailableContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  padding: 2.5px;
+  > h1 {
+    font-weight: 400;
+    font-size: 10px;
+    color: green;
+    margin-top: 4px;
+  }
+  :hover {
+    transition: 0.5s;
+    background-color: lightpink;
+    cursor: pointer;
+  }
+`;
+
+const AvailableIcon = styled(BoxArrowInRight)`
+  height: 25px;
+  width: 25px;
   color: green;
+  width: 100%;
+  margin: 0 auto;
+`;
+
+const UnavailableContainer = styled.div`
+  > h1 {
+    font-weight: 400;
+    font-size: 10px;
+    color: red;
+    margin-top: 4px;
+  }
 `;
 
 const VacancyFull = styled(DeleteOutline)`
   height: 2rem;
   width: 2rem;
   color: red;
+`;
+
+const Line = styled.div`
+  border-right: 1px solid #cfcfcf;
 `;
