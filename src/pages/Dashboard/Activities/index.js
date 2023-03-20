@@ -14,7 +14,7 @@ export default function Activities() {
     } catch (err) {
       toast('Primeiro escolha seu ticket!');
     }
-  }, [ticket]);
+  }, []);
 
   return <ActivitiesSelection ticket={ticket} />;
 }
