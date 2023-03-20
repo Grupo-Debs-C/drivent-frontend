@@ -30,7 +30,7 @@ export default function ActivitiesSelection({ ticket }) {
       const days = activitiesHelpers.getDays(startsAt, endsAt);
       setEventDays(days);
     }
-  }, [eventLoading]);
+  }, [eventLoading, saveVacancyLoading]);
 
   useEffect(async () => {
     const locals = await getLocalities();
@@ -84,6 +84,7 @@ export default function ActivitiesSelection({ ticket }) {
                       isSelected={selectedDay === i}
                       key={i}
                       onClick={() => {
+                        console.log(activities);
                         setSelectedDay(i);
                       }}
                     >
@@ -103,6 +104,7 @@ export default function ActivitiesSelection({ ticket }) {
                             if (a.localityId === l.id) {
                               return (
                                 <ActivityWrapper
+                                //isSubscribed={}
                                   numberOfHours={dayjs(a.endsAt).diff(dayjs(a.startAt)) / 3.6e+6}
                                 >
                                   <ActivityText>
@@ -163,7 +165,7 @@ const ActivitiesList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100%;
+  height: 392px;
 `;
 
 const Locality = styled.div`
