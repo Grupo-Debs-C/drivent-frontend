@@ -9,6 +9,7 @@ import useGetLocalities from '../../hooks/api/useGetLocalities';
 import useGetActivities from '../../hooks/api/useGetActivities';
 import { BoxArrowInRight } from '@styled-icons/bootstrap/BoxArrowInRight';
 import { DeleteOutline } from '@styled-icons/typicons/DeleteOutline';
+import { CheckCircle } from '@styled-icons/bootstrap/CheckCircle';
 import useSaveVacancy from '../../hooks/api/useSaveVacancy';
 import { toast } from 'react-toastify';
 
@@ -101,12 +102,43 @@ export default function ActivitiesSelection({ ticket }) {
                         <p>{l.name}</p>
                         <Activities>
                           {activities.map((a) => {
-                            if (a.localityId === l.id) {
-                              return (
-                                <ActivityWrapper
-                                //isSubscribed={}
-                                  numberOfHours={dayjs(a.endsAt).diff(dayjs(a.startAt)) / 3.6e+6}
-                                >
+                            return a.localityId === l.id ? (
+                              a.vacancyLimit - a.Vacancy.length > 0 ? (
+                                a.Vacancy.find((v) => v.ticketId === ticket.id) ? (
+                                  <SubscribedActivity numberOfHours={dayjs(a.endsAt).diff(dayjs(a.startAt)) / 3.6e6}>
+                                    <ActivityText>
+                                      <ActivityName>{a.Name}</ActivityName>
+                                      <ActivityDuration>
+                                        {`${dayjs(a.startAt).format('HH:mm')} - ${dayjs(a.endsAt).format('HH:mm')}`}
+                                      </ActivityDuration>
+                                    </ActivityText>
+                                    <Line />
+                                    <ActivityVacancies>
+                                      <SubscribedContainer>
+                                        <SubscribedIcon />
+                                        <h1>Inscrito</h1>
+                                      </SubscribedContainer>
+                                    </ActivityVacancies>
+                                  </SubscribedActivity>
+                                ) : (
+                                  <AvailableActivity numberOfHours={dayjs(a.endsAt).diff(dayjs(a.startAt)) / 3.6e6}>
+                                    <ActivityText>
+                                      <ActivityName>{a.Name}</ActivityName>
+                                      <ActivityDuration>
+                                        {`${dayjs(a.startAt).format('HH:mm')} - ${dayjs(a.endsAt).format('HH:mm')}`}
+                                      </ActivityDuration>
+                                    </ActivityText>
+                                    <Line />
+                                    <ActivityVacancies>
+                                      <AvailableContainer onClick={() => handleClick(a.id)}>
+                                        <AvailableIcon />
+                                        <h1>{a.vacancyLimit - a.Vacancy.length} vagas</h1>
+                                      </AvailableContainer>
+                                    </ActivityVacancies>
+                                  </AvailableActivity>
+                                )
+                              ) : (
+                                <UnavailableActivity numberOfHours={dayjs(a.endsAt).diff(dayjs(a.startAt)) / 3.6e6}>
                                   <ActivityText>
                                     <ActivityName>{a.Name}</ActivityName>
                                     <ActivityDuration>
@@ -114,23 +146,15 @@ export default function ActivitiesSelection({ ticket }) {
                                     </ActivityDuration>
                                   </ActivityText>
                                   <Line />
-                                  <ActivityVacancies>
-                                    {a.vacancyLimit - a.Vacancy.length > 0 ? (
-                                      <AvailableContainer onClick={() => handleClick(a.id)}>
-                                        <AvailableIcon />
-                                        <h1>{a.vacancyLimit - a.Vacancy.length} vagas</h1>
-                                      </AvailableContainer>
-                                    ) : (
-                                      <UnavailableContainer>
-                                        <VacancyFull />
-                                        <h1>Esgotado</h1>
-                                      </UnavailableContainer>
-                                    )}
-                                  </ActivityVacancies>
-                                </ActivityWrapper>
-                              );
-                            }
-                            return null;
+                                  <UnavailableContainer>
+                                    <VacancyFull />
+                                    <h1>Esgotado</h1>
+                                  </UnavailableContainer>
+                                </UnavailableActivity>
+                              )
+                            ) : (
+                              <></>
+                            );
                           })}
                         </Activities>
                       </Locality>
@@ -188,7 +212,7 @@ const Activities = styled.div`
   padding: 0.8rem;
 `;
 
-const ActivityWrapper = styled.div`
+const AvailableActivity = styled.div`
   background: #f1f1f1;
   display: flex;
   flex-direction: row;
@@ -234,11 +258,6 @@ const ActivityVacancies = styled.div`
   width: 63px;
   margin-left: 10px;
   border-radius: 5px;
-  :hover {
-    transition: 0.5s;
-    background-color: lightpink;
-    cursor: pointer;
-  }
 `;
 
 const AvailableContainer = styled.div`
@@ -254,7 +273,11 @@ const AvailableContainer = styled.div`
     color: green;
     margin-top: 4px;
   }
-
+  :hover {
+    transition: 0.5s;
+    background-color: lightpink;
+    cursor: pointer;
+  }
 `;
 
 const AvailableIcon = styled(BoxArrowInRight)`
@@ -265,14 +288,36 @@ const AvailableIcon = styled(BoxArrowInRight)`
   margin: 0 auto;
 `;
 
+const SubscribedIcon = styled(CheckCircle)`
+  height: 25px;
+  width: 25px;
+  color: green;
+  width: 100%;
+  margin: 0 auto;
+`;
+
 const UnavailableContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 11px;
+  padding: 2.5px;
   > h1 {
     font-weight: 400;
     font-size: 10px;
     color: red;
     margin-top: 4px;
   }
-  cursor: not-allowed;
+`;
+
+const SubscribedContainer = styled.div`
+  > h1 {
+    font-weight: 400;
+    font-size: 10px;
+    color: green;
+    margin-top: 4px;
+  }
 `;
 
 const VacancyFull = styled(DeleteOutline)`
@@ -285,4 +330,28 @@ const VacancyFull = styled(DeleteOutline)`
 
 const Line = styled.div`
   border-right: 1px solid #cfcfcf;
+`;
+
+const UnavailableActivity = styled.div`
+  background: #f1f1f1;
+  display: flex;
+  flex-direction: row;
+  border-radius: 0.4rem;
+  padding: 10px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  height: ${(props) => props.numberOfHours * '80'}px;
+  cursor: not-allowed;
+`;
+
+const SubscribedActivity = styled.div`
+  background: #d0ffdb;
+  display: flex;
+  flex-direction: row;
+  border-radius: 0.4rem;
+  padding: 10px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  height: ${(props) => props.numberOfHours * '80'}px;
+  cursor: not-allowed;
 `;
