@@ -38,11 +38,11 @@ export default function ActivitiesSelection({ ticket }) {
 
     const response = await getActivities();
     setActivities(response);
-  }, []);
+  }, [saveVacancyLoading]);
 
   const handleClick = async (id) => {
     try {
-      await saveVacancy(id, ticket.id);
+      await saveVacancy({ activityId: id, ticketId: ticket.id });
       toast('Vaga garantida!');
     } catch (err) {
       toast('Não foi possível se cadastrar nesta atividade.');
@@ -104,7 +104,6 @@ export default function ActivitiesSelection({ ticket }) {
                               return (
                                 <ActivityWrapper
                                   numberOfHours={dayjs(a.endsAt).diff(dayjs(a.startAt)) / 3.6e+6}
-                                  onClick={() => handleClick(a.id)}
                                 >
                                   <ActivityText>
                                     <ActivityName>{a.Name}</ActivityName>
@@ -115,14 +114,14 @@ export default function ActivitiesSelection({ ticket }) {
                                   <Line />
                                   <ActivityVacancies>
                                     {a.vacancyLimit - a.Vacancy.length > 0 ? (
-                                      <AvailableContainer>
+                                      <AvailableContainer onClick={() => handleClick(a.id)}>
                                         <AvailableIcon />
                                         <h1>{a.vacancyLimit - a.Vacancy.length} vagas</h1>
                                       </AvailableContainer>
                                     ) : (
                                       <UnavailableContainer>
                                         <VacancyFull />
-                                        Esgotado
+                                        <h1>Esgotado</h1>
                                       </UnavailableContainer>
                                     )}
                                   </ActivityVacancies>
@@ -195,7 +194,7 @@ const ActivityWrapper = styled.div`
   padding: 10px;
   justify-content: space-between;
   margin-bottom: 10px;
-  height: ${(props) => props.numberOfHours * '80'}px; // mudar isso aqui ó
+  height: ${(props) => props.numberOfHours * '80'}px;
 `;
 
 const ActivityText = styled.div`
@@ -232,6 +231,12 @@ const ActivityVacancies = styled.div`
   justify-content: center;
   width: 63px;
   margin-left: 10px;
+  border-radius: 5px;
+  :hover {
+    transition: 0.5s;
+    background-color: lightpink;
+    cursor: pointer;
+  }
 `;
 
 const AvailableContainer = styled.div`
@@ -239,7 +244,7 @@ const AvailableContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+
   padding: 2.5px;
   > h1 {
     font-weight: 400;
@@ -247,11 +252,7 @@ const AvailableContainer = styled.div`
     color: green;
     margin-top: 4px;
   }
-  :hover {
-    transition: 0.5s;
-    background-color: lightpink;
-    cursor: pointer;
-  }
+
 `;
 
 const AvailableIcon = styled(BoxArrowInRight)`
@@ -269,12 +270,15 @@ const UnavailableContainer = styled.div`
     color: red;
     margin-top: 4px;
   }
+  cursor: not-allowed;
 `;
 
 const VacancyFull = styled(DeleteOutline)`
-  height: 2rem;
-  width: 2rem;
+  height: 25px;
+  width: 25px;
   color: red;
+  width: 100%;
+  margin: 0 auto;
 `;
 
 const Line = styled.div`
