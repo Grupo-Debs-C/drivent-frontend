@@ -1,7 +1,7 @@
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
-import { ActivitiesNotAvailableMessage, DayButton, PageTitle } from './ActivitiesStyles';
+import { ActivitiesNotAvailableMessage, DayButton, PageTitle, ButtonsContainer } from './ActivitiesStyles';
 import useEvent from '../../hooks/api/useEvent';
 import { useEffect, useState } from 'react';
 import activitiesHelpers from './helpers';
@@ -78,14 +78,13 @@ export default function ActivitiesSelection({ ticket }) {
           ) : (
             <ScreenStyle>
               {selectedDay === null && <PageTitle>Primeiro, filtre pelo dia do evento: </PageTitle>}
-              <div>
+              <ButtonsContainer>
                 {eventDays.map((day, i) => {
                   return (
                     <DayButton
                       isSelected={selectedDay === i}
                       key={i}
                       onClick={() => {
-                        console.log(activities);
                         setSelectedDay(i);
                       }}
                     >
@@ -93,7 +92,7 @@ export default function ActivitiesSelection({ ticket }) {
                     </DayButton>
                   );
                 })}
-              </div>
+              </ButtonsContainer>
               {selectedDay !== null && (
                 <ActivitiesList localities={localities}>
                   {localities.map((l) => {
