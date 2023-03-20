@@ -84,10 +84,6 @@ export default function ActivitiesSelection({ ticket }) {
                       isSelected={selectedDay === i}
                       key={i}
                       onClick={() => {
-                        console.log(activities);
-                        let x = dayjs(activities[0].endsAt);
-                        console.log(x.diff(dayjs(activities[0].startAt)) / 3.6e+6
-                        );
                         setSelectedDay(i);
                       }}
                     >

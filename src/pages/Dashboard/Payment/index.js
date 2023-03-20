@@ -9,7 +9,7 @@ import useGetTicket from '../../../hooks/api/useGetTicket';
 import ConfirmationImg from '../../../assets/images/Vector.png';
 
 export default function Payment() {
-  const { getTicket } = useGetTicket();
+  const { getTicketLoading, getTicket } = useGetTicket();
   const [ticket, setTicket] = useState({});
 
   useEffect(async () => {
@@ -19,7 +19,7 @@ export default function Payment() {
     } catch (err) {
       toast('Primeiro escolha seu ticket!');
     }
-  }, [ticket]);
+  }, [getTicketLoading]);
 
   return (
     <>
